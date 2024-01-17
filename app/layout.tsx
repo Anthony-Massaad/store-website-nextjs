@@ -7,6 +7,7 @@ import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import "@/styles/_globals.scss";
 import Header from "@/components/Header";
+import UserProvider from "@/providers/UserProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,8 +25,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <PrimeReactProvider>
-          <Header />
-          {children}
+          <UserProvider>
+            <Header />
+            {children}
+          </UserProvider>
         </PrimeReactProvider>
       </body>
     </html>

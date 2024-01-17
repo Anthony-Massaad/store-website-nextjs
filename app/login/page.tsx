@@ -1,6 +1,7 @@
 "use client";
 
 import useSession from "@/hooks/useSession";
+import { UserProviderContext } from "@/providers/UserProvider";
 import axios from "axios";
 import { isEmpty } from "lodash";
 import Link from "next/link";
@@ -10,7 +11,7 @@ import { Card } from "primereact/card";
 import { Divider } from "primereact/divider";
 import { InputText } from "primereact/inputtext";
 import { classNames } from "primereact/utils";
-import React, { ChangeEvent, FC, useState } from "react";
+import React, { ChangeEvent, FC, useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 interface DefaultFormValues {
@@ -26,6 +27,7 @@ const Login: FC = () => {
     password: "",
   };
   const { setToken } = useSession();
+  const { setUserData } = useContext(UserProviderContext);
   const navigate = useRouter();
 
   const {
@@ -41,11 +43,11 @@ const Login: FC = () => {
     await axios
       .post("/api/v1/signIn", stringData)
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
-          // const {token} = await res.json();
-          if (res.data.accessToken) {
+          if (res.data.accessToken && res.data.userData) {
+            console.log(res.data);
             setToken(res.data.accessToken);
+            setUserData(res.data.userData);
             navigate.push("/");
           }
         } else {

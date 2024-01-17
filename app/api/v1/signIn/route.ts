@@ -1,5 +1,6 @@
 import prismaInstance from "@/lib/prisma";
 import { signJwtAccessToken } from "@/lib/jwt";
+import { UserData } from "@/interface/globalInterfaces";
 
 export async function POST(request: Request) {
   const { email, password } = await request.json();
@@ -17,13 +18,24 @@ export async function POST(request: Request) {
   // generate token and send to the client
   const accessToken = signJwtAccessToken({
     id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
     email: user.email,
     username: user.username,
-    firtname: user.firstName,
-    lastName: user.lastName,
+    address: user.address,
   });
 
+  const userData: UserData = {
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    username: user.username,
+    address: user.address,
+  };
+
   const result = {
+    userData,
     accessToken,
   };
 

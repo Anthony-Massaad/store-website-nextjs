@@ -1,17 +1,25 @@
 "use client";
 
-import React, { FC, ReactElement } from "react";
+import React, { FC, ReactElement, useContext, useEffect } from "react";
 import { Button } from "primereact/button";
 import Container from "./Container";
 import { MenuItem } from "primereact/menuitem";
 import { Menubar } from "primereact/menubar";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import useSession from "@/hooks/useSession";
+import { UserProviderContext } from "@/providers/UserProvider";
 
 const Header: FC = () => {
   const navigate = useRouter();
 
   const route = (to: string) => navigate.push(to);
+  const { token } = useSession();
+  const { userData } = useContext(UserProviderContext);
+
+  useEffect(() => {
+    console.log("header() userData: ", userData);
+  }, [userData]);
 
   const items: MenuItem[] = [
     {
@@ -51,22 +59,28 @@ const Header: FC = () => {
   const end = (): ReactElement => {
     return (
       <div className="flex gap-2">
-        <Link href="/login">
-          <Button
-            icon="pi pi-sign-in"
-            className="border-round gap-2 justify-content-between"
-          >
-            Sign In
-          </Button>
-        </Link>
-        <Link href="/register">
-          <Button
-            className="border-round gap-2 justify-content-between"
-            outlined
-          >
-            Sign Up
-          </Button>
-        </Link>
+        {token && userData ? (
+          <p>{userData.username}</p>
+        ) : (
+          <>
+            <Link href="/login">
+              <Button
+                icon="pi pi-sign-in"
+                className="border-round gap-2 justify-content-between"
+              >
+                Sign In
+              </Button>
+            </Link>
+            <Link href="/register">
+              <Button
+                className="border-round gap-2 justify-content-between"
+                outlined
+              >
+                Sign Up
+              </Button>
+            </Link>
+          </>
+        )}
       </div>
     );
   };

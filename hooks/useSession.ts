@@ -1,7 +1,9 @@
-import { useLocalStorage } from "primereact/hooks";
+import { UserData } from "@/interface/globalInterfaces";
+import { useSessionStorage } from "primereact/hooks";
+import { useState } from "react";
 
 const useSession = () => {
-  const [token, setToken] = useLocalStorage<string | null>(null, "token");
+  const [token, setToken] = useSessionStorage<string | null>(null, "token");
 
   return {
     token,
