@@ -1,0 +1,7 @@
+.header-bar {
+  height: 60px;
+
+  :not(.home-btn) .p-menuitem-link span {
+    padding: 0.5rem;
+  }
+}

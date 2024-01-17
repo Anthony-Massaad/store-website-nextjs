@@ -1,0 +1,19 @@
+.feature-panel {
+  --img-horizontal-pos: -8rem;
+  --img-vertical-pos: 1.5rem;
+
+  img {
+    transition-property: background-color, border-color, color, fill, stroke,
+      opacity, box-shadow, transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+    top: var(--img-vertical-pos);
+    right: var(--img-horizontal-pos);
+  }
+
+  &:hover {
+    img {
+      transform: scale(1.04) translate(-3px, -8px) rotate(2deg);
+    }
+  }
+}

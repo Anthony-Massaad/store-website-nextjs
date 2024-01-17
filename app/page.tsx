@@ -1,95 +1,134 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
 
-export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+import axios from "axios";
+import { Button } from "primereact/button";
+import { Card } from "primereact/card";
+import { Rating } from "primereact/rating";
+import React, { FC, ReactElement, useEffect, useState } from "react";
+import { Splitter, SplitterPanel } from "primereact/splitter";
+import { ProgressSpinner } from "primereact/progressspinner";
+import { isEmpty } from "lodash";
+import { InputText } from "primereact/inputtext";
+import { ProductsData } from "@/interface/globalInterfaces";
+import Container from "@/components/Container";
+import CarouselProduct from "@/components/CarouselProducts";
+import ProductsDataView from "@/components/ProductsDataView";
+import Link from "next/link";
+
+const Home: FC = () => {
+  const [featuredProducts, setFeaturedProducts] = useState<ProductsData[]>([]);
+
+  useEffect(() => {
+    (async (): Promise<void> => {
+      axios
+        .get("/api/v1/getProducts/featured")
+        .then((res) => {
+          if (res.status === 200) {
+            setFeaturedProducts(res.data);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    })();
+  }, []);
+
+  const handleCartButtonClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): void => {
+    event.preventDefault();
+  };
+
+  const featuredItems = (): ReactElement => {
+    const feature = (product: ProductsData): ReactElement => {
+      return (
+        <div className="w-full h-full relative overflow-hidden feature-panel">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-25rem h-full absolute z-0"
+          />
+          <div className="ml-5  border-round flex flex-column justify-content-around align-items-center relative z-1 surface-card w-6 p-1 shadow-3 h-22rem">
+            <h3 className="text-center">{product.name}</h3>
+            <div className="flex gap-2">
+              <Rating value={product.rating} readOnly cancel={false}></Rating>
+              <span className="font-bold text-primary text-l">
+                ({product.numOfPeopleRated})
+              </span>
+            </div>
+            <h4 className="text-2xl font-bold">${product.price}</h4>
+            <div className="flex flex-wrap gap-2 justify-content-around">
+              <Button
+                icon="pi pi-shopping-cart"
+                className="p-button-rounded gap-2"
+                disabled={product.quantity === 0}
+                outlined
+                onClick={handleCartButtonClick}
+              >
+                Add to Cart
+              </Button>
+              <Link href={`/viewProduct/${product.id}`}>
+                <Button
+                  icon="pi pi-arrow-right"
+                  className="p-button-rounded gap-2 flex-row-reverse"
+                  disabled={product.quantity === 0}
+                >
+                  View Product
+                </Button>
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
+      );
+    };
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+    const progessSpinner = (): ReactElement => {
+      return (
+        <div className="flex align-items-center justify-content-center w-full">
+          <ProgressSpinner strokeWidth="4" />
+        </div>
+      );
+    };
+
+    return (
+      <Splitter style={{ height: "400px" }} layout="horizontal" gutterSize={0}>
+        <SplitterPanel className="border-right-1 pt-3">
+          {isEmpty(featuredProducts)
+            ? progessSpinner()
+            : feature(featuredProducts[0])}
+        </SplitterPanel>
+        <SplitterPanel className="pt-3 border-left-1">
+          {isEmpty(featuredProducts)
+            ? progessSpinner()
+            : feature(featuredProducts[1])}
+        </SplitterPanel>
+      </Splitter>
+    );
+  };
+
+  return (
+    <Container contentContainer>
+      <div className="flex gap-2 mb-4 justify-content-center">
+        <InputText
+          placeholder="Search"
+          className="border-round w-full max-w-30rem"
         />
+        <Button icon="pi pi-search" className="p-button-rounded"></Button>
       </div>
+      <Card className="mb-4">
+        <h2 className="p-4 border-bottom-1">Featured Items</h2>
+        {featuredItems()}
+      </Card>
+      <Card className="mb-4">
+        <h2 className="p-4">Top Rated Products</h2>
+        <CarouselProduct itemCategory="topRated" />
+      </Card>
+      <Card className="mb-4">
+        <h2 className="p-4">All Products</h2>
+        <ProductsDataView category="all" />
+      </Card>
+    </Container>
+  );
+};
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+export default Home;

@@ -1,0 +1,13 @@
+.login-sign-up-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(300px, 100%, 800px);
+  transform: translate(-50%, -50%);
+
+  .input-label {
+    transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+  }
+}
