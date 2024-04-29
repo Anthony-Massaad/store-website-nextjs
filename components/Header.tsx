@@ -7,19 +7,14 @@ import { MenuItem } from "primereact/menuitem";
 import { Menubar } from "primereact/menubar";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import useSession from "@/hooks/useSession";
-import { UserProviderContext } from "@/providers/UserProvider";
+import { SessionContext } from "@/providers/SessionProvider";
 
 const Header: FC = () => {
   const navigate = useRouter();
 
   const route = (to: string) => navigate.push(to);
-  const { token } = useSession();
-  const { userData } = useContext(UserProviderContext);
 
-  useEffect(() => {
-    console.log("header() userData: ", userData);
-  }, [userData]);
+  const { userData } = useContext(SessionContext);
 
   const items: MenuItem[] = [
     {
@@ -59,8 +54,8 @@ const Header: FC = () => {
   const end = (): ReactElement => {
     return (
       <div className="flex gap-2">
-        {token && userData ? (
-          <p>{userData.username}</p>
+        {userData ? (
+          <p>{userData.email}</p>
         ) : (
           <>
             <Link href="/login">
