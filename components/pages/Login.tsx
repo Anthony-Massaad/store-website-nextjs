@@ -1,5 +1,6 @@
 "use client";
 
+import { UserData } from "@/interface/globalInterfaces";
 import { loginFunc } from "@/lib/utils";
 import axios from "axios";
 import Link from "next/link";
@@ -40,8 +41,8 @@ const LoginPage: FC = () => {
     await axios
       .post("/api/v1/signIn", stringData)
       .then(async (res) => {
-        if (res.status === 200) {
-          await loginFunc(data);
+        if (res.status === 200 && res.data.success) {
+          await loginFunc(res.data.msg);
           navigate.push("/");
         } else {
           setIncorrect(true);

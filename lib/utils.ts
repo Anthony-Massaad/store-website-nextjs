@@ -2,20 +2,23 @@
 import { JwtPayload } from "jsonwebtoken";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import { UserData } from "@/interface/globalInterfaces";
 
 const key = new TextEncoder().encode(process.env.SECRET_KEY as string);
-
-interface DefaultFormValues {
-  email: string;
-  password: string;
-}
 
 export const logoutFunc = async () => {
   cookies().set("session", "", { expires: new Date(0) });
 };
 
-export const loginFunc = async (formData: DefaultFormValues) => {
-  const user = { email: formData.email };
+export const loginFunc = async (formData: UserData) => {
+  const user: UserData = {
+    email: formData.email,
+    id: formData.id,
+    username: formData.username,
+    address: formData.address,
+    firstName: formData.firstName,
+    lastName: formData.lastName,
+  };
   const expires = new Date(Date.now() + 10 * 1000);
   const session = await encrypt({ user, expires });
   // read only in the server

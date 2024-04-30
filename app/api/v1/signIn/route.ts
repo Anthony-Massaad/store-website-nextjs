@@ -1,3 +1,4 @@
+import { UserData } from "@/interface/globalInterfaces";
 import prismaInstance from "@/lib/prisma";
 
 export async function POST(request: Request) {
@@ -10,8 +11,22 @@ export async function POST(request: Request) {
   });
 
   if (!user || user.password !== password) {
-    return new Response("Bad Credentials", { status: 400 });
+    return new Response(
+      JSON.stringify({ msg: "Bad Credentials", success: false }),
+      { status: 200 }
+    );
   }
 
-  return new Response(JSON.stringify("Good Credentials"), { status: 200 });
+  const userData: UserData = {
+    id: user.id,
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    address: user.address,
+    username: user.username,
+  };
+
+  return new Response(JSON.stringify({ msg: userData, success: true }), {
+    status: 200,
+  });
 }

@@ -55,7 +55,7 @@ const Header: FC = () => {
     return (
       <div className="flex gap-2">
         {userData ? (
-          <p>{userData.email}</p>
+          <p>{userData.username}</p>
         ) : (
           <>
             <Link href="/login">
