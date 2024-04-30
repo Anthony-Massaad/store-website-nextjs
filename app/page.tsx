@@ -1,7 +1,7 @@
 import HomePage from "@/components/pages/Home";
 import { getSession } from "@/lib/sessionUtils";
 
-export const Home = async () => {
+const Home = async () => {
   return <HomePage />;
 };
 
