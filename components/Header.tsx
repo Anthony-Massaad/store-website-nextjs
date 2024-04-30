@@ -1,6 +1,12 @@
 "use client";
 
-import React, { FC, ReactElement, useContext, useEffect } from "react";
+import React, {
+  FC,
+  ReactElement,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { Button } from "primereact/button";
 import Container from "./Container";
 import { MenuItem } from "primereact/menuitem";
@@ -8,13 +14,21 @@ import { Menubar } from "primereact/menubar";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { SessionContext } from "@/providers/SessionProvider";
+import { map } from "lodash";
+import { logoutFunc } from "@/lib/utils";
+import { Divider } from "primereact/divider";
+
+interface UserSigninOptions {
+  icon?: string;
+  label: string;
+  command: () => void;
+}
 
 const Header: FC = () => {
   const navigate = useRouter();
-
   const route = (to: string) => navigate.push(to);
-
   const { userData } = useContext(SessionContext);
+  const [userOptionsActive, setUserOptionsActive] = useState(false);
 
   const items: MenuItem[] = [
     {
@@ -51,11 +65,65 @@ const Header: FC = () => {
     },
   ];
 
+  const userSignInOptions: UserSigninOptions[] = [
+    {
+      icon: "pi pi-user",
+      label: "Profile",
+      command: () => route("/profile"),
+    },
+    {
+      icon: "pi pi-sign-out",
+      label: "Logout",
+      command: () => logoutFunc(),
+    },
+  ];
+
+  useEffect(() => {
+    // use effect to handle clicking anywhere BUT the username or ul, close the ul
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (userOptionsActive && !target.closest(".user-menu-options")) {
+        setUserOptionsActive(false);
+      }
+    };
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, [userOptionsActive]);
+
   const end = (): ReactElement => {
     return (
       <div className="flex gap-2">
         {userData ? (
-          <p>{userData.username}</p>
+          <div className="relative user-menu-options">
+            <div
+              role="button"
+              tabIndex={-1}
+              className="focus:border-blue-200 transition-ease-in-out transition-duration-100 border-transparent select-none flex gap-2 p-3 border-3 border-round font-semibold cursor-pointer"
+              onClick={() => setUserOptionsActive((prev) => !prev)}
+            >
+              <p>{userData.username}</p>
+              <i className="pi pi-angle-down"></i>
+            </div>
+            <ul
+              className={`${"absolute w-full left-0 top-100 bg-white border-3 border-round surface-border"} ${
+                userOptionsActive ? "block" : "hidden"
+              }`}
+            >
+              {map(userSignInOptions, (item, idx) => (
+                <li
+                  key={idx}
+                  onClick={() => item.command()}
+                  className="hover:surface-hover cursor-pointer"
+                >
+                  <div className="flex gap-2 p-3">
+                    {item.icon && <i className={item.icon}></i>}
+                    <p>{item.label}</p>
+                  </div>
+                  {idx !== userSignInOptions.length && <Divider />}
+                </li>
+              ))}
+            </ul>
+          </div>
         ) : (
           <>
             <Link href="/login">
