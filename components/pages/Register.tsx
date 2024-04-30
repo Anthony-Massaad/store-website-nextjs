@@ -1,6 +1,5 @@
 "use client";
 
-import { loginFunc } from "@/lib/utils";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,6 +8,8 @@ import { Card } from "primereact/card";
 import { Divider } from "primereact/divider";
 import { InputText } from "primereact/inputtext";
 import { classNames } from "primereact/utils";
+import { Stepper } from "primereact/stepper";
+import { StepperPanel } from "primereact/stepperpanel";
 import {
   ChangeEvent,
   FC,
@@ -18,8 +19,6 @@ import {
   useState,
 } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Stepper } from "primereact/stepper";
-import { StepperPanel } from "primereact/stepperpanel";
 
 interface DefaultFormValues {
   username: string;
