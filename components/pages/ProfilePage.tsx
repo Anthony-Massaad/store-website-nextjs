@@ -12,6 +12,7 @@ import { classNames } from "primereact/utils";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { changeUserDataSession } from "@/lib/utils";
+import { ToastContext } from "@/providers/ToastProvider";
 
 interface DefaultFormValues {
   username?: string;
@@ -34,6 +35,8 @@ const ProfilePage: FC = () => {
     lastName: userData?.lastName,
     address: userData?.address,
   });
+
+  const { showToast } = useContext(ToastContext);
 
   useEffect(() => {
     if (userData && toString(userData?.id) === id && sessionToken) {
@@ -76,12 +79,15 @@ const ProfilePage: FC = () => {
           await changeUserDataSession(res.data.userData);
           setIsEditMode(false);
           setIsProccessing(false);
+          showToast("success", "Updated", res.data.msg);
         } else {
           console.log(res.data.msg);
+          showToast("error", "Oops", res.data.msg);
         }
       })
       .catch((err) => {
         console.error(err);
+        showToast("error", "Oops", "Cannot update user information");
       });
   };
 

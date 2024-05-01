@@ -128,7 +128,9 @@ const Header: FC = () => {
                     {item.icon && <i className={item.icon}></i>}
                     <p>{item.label}</p>
                   </div>
-                  {idx !== userSignInOptions.length && <Divider />}
+                  {idx !== userSignInOptions.length && (
+                    <Divider className="m-0" />
+                  )}
                 </li>
               ))}
             </ul>
@@ -158,12 +160,12 @@ const Header: FC = () => {
   };
 
   return (
-    <header className="header-bar shadow-1 surface-overlay border-noround fixed top-0 w-full z-5 px-5">
+    <header className="header-bar shadow-1 surface-overlay border-noround fixed top-0 w-full z-5 px-5 block">
       <Container>
         <Menubar
           model={items}
           end={end}
-          className="h-full flex justify-content-between surface-overlay"
+          className="h-full flex justify-content-between surface-overlay block border-0 p-0 m-0"
         />
       </Container>
     </header>

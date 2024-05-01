@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { PrimeReactProvider } from "primereact/api";
+import "@/styles/_globals.scss";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
-import "@/styles/_globals.scss";
 import Header from "@/components/Header";
 import { getSession } from "@/lib/sessionUtils";
 import SessionProvider from "@/providers/SessionProvider";
+import ToastProvider from "@/providers/ToastProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,10 +28,12 @@ export default async function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <PrimeReactProvider>
-          <SessionProvider session={session}>
-            <Header />
-            {children}
-          </SessionProvider>
+          <ToastProvider>
+            <SessionProvider session={session}>
+              <Header />
+              {children}
+            </SessionProvider>
+          </ToastProvider>
         </PrimeReactProvider>
       </body>
     </html>

@@ -14,11 +14,13 @@ import {
   ChangeEvent,
   FC,
   ReactElement,
+  useContext,
   useEffect,
   useRef,
   useState,
 } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { ToastContext } from "@/providers/ToastProvider";
 
 interface DefaultFormValues {
   username: string;
@@ -48,6 +50,8 @@ const RegisterPage: FC = () => {
   const stepperRef = useRef(null);
 
   const navigate = useRouter();
+
+  const { showToast } = useContext(ToastContext);
 
   const {
     control,
@@ -79,6 +83,7 @@ const RegisterPage: FC = () => {
       .then(async (res) => {
         console.log(res);
         if (res.status === 200 && res.data.success) {
+          showToast("success", "Created", "User profile created!");
           navigate.push("/");
         } else {
           setIncorrect(true);
@@ -363,7 +368,7 @@ const RegisterPage: FC = () => {
             </div>
           )}
         />
-        <div className="flex justify-content-between">
+        <div className="flex justify-content-between column-gap-1">
           <Button
             label="Back"
             severity="secondary"
