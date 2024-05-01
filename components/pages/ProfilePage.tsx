@@ -92,9 +92,6 @@ const ProfilePage: FC = () => {
     >
       <Card className="w-9 w-auto md:w-max">
         <h2 className="px-4 pt-4">Profile Page</h2>
-        <p className="px-4 mt-4">
-          <strong>Emails</strong> cannot be changed
-        </p>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="p-4"
