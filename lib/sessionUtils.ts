@@ -2,10 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { decrypt, encrypt } from "./utils";
 import { cookies } from "next/headers";
 
-export const getSession = async () => {
+export const getSession = async (): Promise<{
+  decrypted: any;
+  token: string;
+} | null> => {
   const session = cookies().get("session")?.value;
   if (!session) return null;
-  return await decrypt(session);
+  return { decrypted: await decrypt(session), token: session };
 };
 
 export const updateSession = async (request: NextRequest) => {

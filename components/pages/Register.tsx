@@ -118,7 +118,7 @@ const RegisterPage: FC = () => {
             <div className="mt-4">
               <label
                 htmlFor={field.name}
-                className={`${classNames({ "p-error": errors.email })}`}
+                className={`${classNames({ "p-error": errors[field.name] })}`}
               ></label>
               <span className="p-float-label">
                 <InputText
@@ -151,7 +151,7 @@ const RegisterPage: FC = () => {
               <label
                 htmlFor={field.name}
                 className={`${classNames({
-                  "p-error": errors.password,
+                  "p-error": errors[field.name],
                 })}`}
               ></label>
               <span className="p-float-label">
@@ -162,7 +162,7 @@ const RegisterPage: FC = () => {
                     "p-invalid": fieldState.error,
                   })}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                    errors.password && clearErrors("password");
+                    errors.password && clearErrors(field.name);
                     field.onChange(e.target.value);
                     handleValueChange(field.name, e.target.value);
                   }}
@@ -185,7 +185,7 @@ const RegisterPage: FC = () => {
               <label
                 htmlFor={field.name}
                 className={`${classNames({
-                  "p-error": errors.password,
+                  "p-error": errors[field.name],
                 })}`}
               ></label>
               <span className="p-float-label">
@@ -196,7 +196,7 @@ const RegisterPage: FC = () => {
                     "p-invalid": fieldState.error,
                   })}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                    errors.password && clearErrors("password");
+                    errors.confirmPassword && clearErrors(field.name);
                     field.onChange(e.target.value);
                     handleValueChange(field.name, e.target.value);
                   }}
@@ -239,7 +239,7 @@ const RegisterPage: FC = () => {
             <div className="mt-4">
               <label
                 htmlFor={field.name}
-                className={`${classNames({ "p-error": errors.email })}`}
+                className={`${classNames({ "p-error": errors[field.name] })}`}
               ></label>
               <span className="p-float-label">
                 <InputText
@@ -249,7 +249,7 @@ const RegisterPage: FC = () => {
                     "p-invalid": fieldState.error,
                   })}`}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                    errors.email && clearErrors("email");
+                    errors.username && clearErrors(field.name);
                     field.onChange(e.target.value);
                     handleValueChange(field.name, e.target.value);
                   }}
@@ -271,7 +271,7 @@ const RegisterPage: FC = () => {
             <div className="mt-2">
               <label
                 htmlFor={field.name}
-                className={`${classNames({ "p-error": errors.email })}`}
+                className={`${classNames({ "p-error": errors[field.name] })}`}
               ></label>
               <span className="p-float-label">
                 <InputText
@@ -281,7 +281,7 @@ const RegisterPage: FC = () => {
                     "p-invalid": fieldState.error,
                   })}`}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                    errors.email && clearErrors("email");
+                    errors.firstName && clearErrors(field.name);
                     field.onChange(e.target.value);
                     handleValueChange(field.name, e.target.value);
                   }}
@@ -304,7 +304,7 @@ const RegisterPage: FC = () => {
               <label
                 htmlFor={field.name}
                 className={`${classNames({
-                  "p-error": errors.password,
+                  "p-error": errors[field.name],
                 })}`}
               ></label>
               <span className="p-float-label">
@@ -315,7 +315,7 @@ const RegisterPage: FC = () => {
                     "p-invalid": fieldState.error,
                   })}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                    errors.password && clearErrors("password");
+                    errors.lastName && clearErrors(field.name);
                     field.onChange(e.target.value);
                     handleValueChange(field.name, e.target.value);
                   }}
@@ -338,7 +338,7 @@ const RegisterPage: FC = () => {
               <label
                 htmlFor={field.name}
                 className={`${classNames({
-                  "p-error": errors.password,
+                  "p-error": errors[field.name],
                 })}`}
               ></label>
               <span className="p-float-label">
@@ -349,7 +349,7 @@ const RegisterPage: FC = () => {
                     "p-invalid": fieldState.error,
                   })}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                    errors.password && clearErrors("password");
+                    errors.address && clearErrors(field.name);
                     field.onChange(e.target.value);
                     handleValueChange(field.name, e.target.value);
                   }}

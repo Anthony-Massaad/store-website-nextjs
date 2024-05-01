@@ -39,3 +39,18 @@ export async function decrypt(token: string): Promise<any> {
   });
   return payload;
 }
+
+export const changeUserDataSession = async (data: UserData) => {
+  const user: UserData = {
+    email: data.email,
+    id: data.id,
+    username: data.username,
+    address: data.address,
+    firstName: data.firstName,
+    lastName: data.lastName,
+  };
+  const expires = new Date(Date.now() + 10 * 1000);
+  const session = await encrypt({ user, expires });
+  // read only in the server
+  cookies().set("session", session, { expires, httpOnly: true });
+};

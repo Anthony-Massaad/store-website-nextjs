@@ -11,12 +11,13 @@ import { Button } from "primereact/button";
 import Container from "./Container";
 import { MenuItem } from "primereact/menuitem";
 import { Menubar } from "primereact/menubar";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { SessionContext } from "@/providers/SessionProvider";
 import { map } from "lodash";
 import { logoutFunc } from "@/lib/utils";
 import { Divider } from "primereact/divider";
+import { updateSession } from "@/lib/sessionUtils";
 
 interface UserSigninOptions {
   icon?: string;
@@ -29,6 +30,7 @@ const Header: FC = () => {
   const route = (to: string) => navigate.push(to);
   const { userData } = useContext(SessionContext);
   const [userOptionsActive, setUserOptionsActive] = useState(false);
+  const pathname = usePathname();
 
   const items: MenuItem[] = [
     {
@@ -69,12 +71,19 @@ const Header: FC = () => {
     {
       icon: "pi pi-user",
       label: "Profile",
-      command: () => route("/profile"),
+      command: () => {
+        route(`/profile/${userData?.id}`);
+        setUserOptionsActive(false);
+      },
     },
     {
       icon: "pi pi-sign-out",
       label: "Logout",
-      command: () => logoutFunc(),
+      command: () => {
+        logoutFunc();
+        setUserOptionsActive(false);
+        navigate.push(pathname);
+      },
     },
   ];
 

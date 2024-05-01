@@ -6,36 +6,46 @@ import { FC, ReactNode, createContext, useEffect } from "react";
 
 interface Props {
   children: ReactNode;
-  session: any;
+  session: {
+    decrypted: any;
+    token: string;
+  } | null;
 }
 
 interface ContextProps {
   userData?: UserData;
+  sessionToken?: string;
 }
 
 export const SessionContext = createContext<ContextProps>({} as ContextProps);
 
 const userDataAtom = atom<UserData | undefined>(undefined);
+const sessionTokenAtom = atom<string | undefined>(undefined);
 
 const SessionProvider: FC<Props> = ({ children, session }) => {
   const [userData, setUserData] = useAtom<UserData | undefined>(userDataAtom);
+  const [sessionToken, setSessionToken] = useAtom<string | undefined>(
+    sessionTokenAtom
+  );
 
   useEffect(() => {
     if (session) {
       console.log("Session Changed! ", session);
+      const data = session.decrypted;
       setUserData({
-        email: session.user.email,
-        username: session.user.username,
-        id: session.user.id,
-        firstName: session.user.firstName,
-        lastName: session.user.lastName,
-        address: session.user.address,
+        email: data.user.email,
+        username: data.user.username,
+        id: data.user.id,
+        firstName: data.user.firstName,
+        lastName: data.user.lastName,
+        address: data.user.address,
       });
+      setSessionToken(session.token);
     }
   }, [session]);
 
   return (
-    <SessionContext.Provider value={{ userData }}>
+    <SessionContext.Provider value={{ userData, sessionToken }}>
       {children}
     </SessionContext.Provider>
   );
