@@ -52,5 +52,5 @@ export const changeUserDataSession = async (data: UserData) => {
   const expires = new Date(Date.now() + 10 * 1000);
   const session = await encrypt({ user, expires });
   // read only in the server
-  cookies().set("session", session, { expires, httpOnly: true });
+  cookies().set("session", session, { expires });
 };

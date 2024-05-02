@@ -22,7 +22,6 @@ export const updateSession = async (request: NextRequest) => {
   res.cookies.set({
     name: "session",
     value: await encrypt(parsedSession),
-    httpOnly: true,
     expires: parsedSession.expires,
   });
 

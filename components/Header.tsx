@@ -18,6 +18,8 @@ import { map } from "lodash";
 import { logoutFunc } from "@/lib/utils";
 import { Divider } from "primereact/divider";
 import { updateSession } from "@/lib/sessionUtils";
+import { Sidebar } from "primereact/sidebar";
+import SideBarCartList from "./SideBarCartList";
 
 interface UserSigninOptions {
   icon?: string;
@@ -30,6 +32,7 @@ const Header: FC = () => {
   const route = (to: string) => navigate.push(to);
   const { userData } = useContext(SessionContext);
   const [userOptionsActive, setUserOptionsActive] = useState(false);
+  const [sideBarVisibleRight, setSideBarVisibleRight] = useState(false);
   const pathname = usePathname();
 
   const items: MenuItem[] = [
@@ -103,37 +106,50 @@ const Header: FC = () => {
     return (
       <div className="flex gap-2">
         {userData ? (
-          <div className="relative user-menu-options">
-            <div
-              role="button"
-              tabIndex={-1}
-              className="focus:border-blue-200 transition-ease-in-out transition-duration-100 border-transparent select-none flex gap-2 p-3 border-3 border-round font-semibold cursor-pointer"
-              onClick={() => setUserOptionsActive((prev) => !prev)}
-            >
-              <p>{userData.username}</p>
-              <i className="pi pi-angle-down"></i>
+          <div className="flex gap-2 align-items-center justify-items-center">
+            <Button
+              icon="pi pi-shopping-cart"
+              className="p-button-rounded"
+              onClick={() => {
+                setSideBarVisibleRight(true);
+              }}
+            ></Button>
+            <div className="relative user-menu-options">
+              <div
+                role="button"
+                tabIndex={-1}
+                className="focus:border-blue-200 transition-ease-in-out transition-duration-100 border-transparent select-none flex gap-2 p-3 border-3 border-round font-semibold cursor-pointer"
+                onClick={() => setUserOptionsActive((prev) => !prev)}
+              >
+                <p>{userData.username}</p>
+                <i className="pi pi-angle-down"></i>
+              </div>
+              <ul
+                className={`${"absolute w-full left-0 top-100 bg-white border-3 border-round surface-border"} ${
+                  userOptionsActive ? "block" : "hidden"
+                }`}
+              >
+                {map(userSignInOptions, (item, idx) => (
+                  <li
+                    key={idx}
+                    onClick={() => item.command()}
+                    className="hover:surface-hover cursor-pointer"
+                  >
+                    <div className="flex gap-2 p-3">
+                      {item.icon && <i className={item.icon}></i>}
+                      <p>{item.label}</p>
+                    </div>
+                    {idx !== userSignInOptions.length && (
+                      <Divider className="m-0" />
+                    )}
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul
-              className={`${"absolute w-full left-0 top-100 bg-white border-3 border-round surface-border"} ${
-                userOptionsActive ? "block" : "hidden"
-              }`}
-            >
-              {map(userSignInOptions, (item, idx) => (
-                <li
-                  key={idx}
-                  onClick={() => item.command()}
-                  className="hover:surface-hover cursor-pointer"
-                >
-                  <div className="flex gap-2 p-3">
-                    {item.icon && <i className={item.icon}></i>}
-                    <p>{item.label}</p>
-                  </div>
-                  {idx !== userSignInOptions.length && (
-                    <Divider className="m-0" />
-                  )}
-                </li>
-              ))}
-            </ul>
+            <SideBarCartList
+              setSideBarVisibleRight={setSideBarVisibleRight}
+              sideBarVisibleRight={sideBarVisibleRight}
+            />
           </div>
         ) : (
           <>
