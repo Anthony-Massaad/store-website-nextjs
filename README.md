@@ -24,6 +24,7 @@ A mimic of some e-commerce store using NextJs, Typescript, and prisma. Primereac
 
 - Save cart items upon update in cookies with user session
 - Checkout functionality with full update to the database
+- Search products functionality
 
 # Credit
 
