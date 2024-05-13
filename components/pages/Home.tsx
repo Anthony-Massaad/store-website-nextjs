@@ -60,6 +60,7 @@ export const HomePage: FC = () => {
             <h4 className="text-2xl font-bold">${product.price}</h4>
             <div className="flex flex-wrap gap-2 justify-content-around">
               <AddToCartButton
+                item={product}
                 text="Add to Cart"
                 disabled={product.quantity === 0}
                 outlined
