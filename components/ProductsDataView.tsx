@@ -11,6 +11,7 @@ import { Skeleton } from "primereact/skeleton";
 import { DataView } from "primereact/dataview";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import AddToCartButton from "./AddToCartButton";
 
 interface Props {
   category?: string;
@@ -63,15 +64,9 @@ const ProductsDataView: FC<Props> = ({ category }) => {
     }
   }, [category]);
 
-  const handleCartButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ): void => {
-    event.preventDefault();
-  };
-
   const allProductsGridItem = (product: ProductsData): ReactElement => {
     return (
-      <div className="col-12 sm:col-6 xl:col-4 p-2">
+      <div className="col-12 sm:col-6 xl:col-4 p-2 relative">
         <Link
           href={`/viewProduct/${product.id}`}
           className="flex flex-column p-4 border-1 surface-border surface-card border-round block product hover:shadow-2 z-2 relative"
@@ -105,12 +100,7 @@ const ProductsDataView: FC<Props> = ({ category }) => {
           </div>
           <div className="flex align-items-center justify-content-between mt-auto">
             <span className="text-2xl font-semibold">${product.price}</span>
-            <Button
-              icon="pi pi-shopping-cart"
-              className="p-button-rounded z-4"
-              disabled={product.quantity === 0}
-              onClick={handleCartButtonClick}
-            ></Button>
+            <AddToCartButton item={product} disabled={product.quantity === 0} />
           </div>
         </Link>
       </div>

@@ -9,6 +9,7 @@ import { Button } from "primereact/button";
 import { Tag } from "primereact/tag";
 import { isEmpty } from "lodash";
 import Link from "next/link";
+import AddToCartButton from "./AddToCartButton";
 
 interface Props {
   itemCategory?: string;
@@ -120,21 +121,18 @@ const CarouselProduct: FC<Props> = ({ itemCategory }) => {
           <img src={product.image} alt={product.name} className="shadow-2" />
         </div>
         <h4 className="product-title">{product.name}</h4>
-        <h6 className="text-lg">${product.price}</h6>
+        <h6 className="text-lg">${product.price.toFixed(2)}</h6>
         <Tag
           value={product.quantity > 0 ? "INSTOCK" : "OUTOFSTOCK"}
           severity={"success"}
           className="p-1 w-5 m-auto"
         ></Tag>
-        <div className="mt-auto">
-          <Button
-            icon="pi pi-shopping-cart"
-            className="p-button-rounded gap-2"
+        <div className="mt-auto flex align-content-center justify-content-center">
+          <AddToCartButton
+            item={product}
             disabled={product.quantity === 0}
-            onClick={handleCartButtonClick}
-          >
-            Add to Cart
-          </Button>
+            text="Add to Cart"
+          />
         </div>
       </Link>
     );

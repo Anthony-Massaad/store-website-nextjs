@@ -10,6 +10,7 @@ import Header from "@/components/Header";
 import { getSession } from "@/lib/sessionUtils";
 import SessionProvider from "@/providers/SessionProvider";
 import ToastProvider from "@/providers/ToastProvider";
+import CartProvider from "@/providers/CartProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,8 +31,10 @@ export default async function RootLayout({
         <PrimeReactProvider>
           <ToastProvider>
             <SessionProvider session={session}>
-              <Header />
-              {children}
+              <CartProvider>
+                <Header />
+                {children}
+              </CartProvider>
             </SessionProvider>
           </ToastProvider>
         </PrimeReactProvider>

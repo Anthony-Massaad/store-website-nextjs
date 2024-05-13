@@ -17,8 +17,6 @@ import { SessionContext } from "@/providers/SessionProvider";
 import { map } from "lodash";
 import { logoutFunc } from "@/lib/utils";
 import { Divider } from "primereact/divider";
-import { updateSession } from "@/lib/sessionUtils";
-import { Sidebar } from "primereact/sidebar";
 import SideBarCartList from "./SideBarCartList";
 
 interface UserSigninOptions {

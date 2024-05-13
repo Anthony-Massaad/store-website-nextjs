@@ -12,6 +12,7 @@ import { Card } from "primereact/card";
 import { Skeleton } from "primereact/skeleton";
 import { ProductsData } from "@/interface/globalInterfaces";
 import CarouselProduct from "@/components/CarouselProducts";
+import AddToCartButton from "../AddToCartButton";
 
 const ViewProductByIdPage: FC = () => {
   const { id } = useParams();
@@ -59,7 +60,7 @@ const ViewProductByIdPage: FC = () => {
                 ({displayProduct.numOfPeopleRated} ratings)
               </span>
             </div>
-            <p className="text-2xl">${displayProduct.price}</p>
+            <p className="text-2xl">${displayProduct.price.toFixed(2)}</p>
             <Divider className="my-3" />
             <div className="mb-2">
               <strong>Description:</strong>
@@ -70,13 +71,11 @@ const ViewProductByIdPage: FC = () => {
               {displayProduct.quantity}
             </p>
             {displayProduct.quantity > 0 ? (
-              <Button
-                icon="pi pi-shopping-cart"
-                className="p-button-rounded gap-2"
-                raised
-              >
-                Add to Cart
-              </Button>
+              <AddToCartButton
+                item={displayProduct}
+                text="Add to Cart"
+                disabled={displayProduct.quantity === 0}
+              />
             ) : (
               <Tag
                 className="p-1"

@@ -6,6 +6,8 @@ html {
 
 .product {
   color: inherit;
+  position: relative;
+  z-index: 2;
   min-height: 500px;
   max-height: 500px;
   img {

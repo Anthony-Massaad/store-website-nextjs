@@ -14,6 +14,7 @@ import { InputText } from "primereact/inputtext";
 import { Card } from "primereact/card";
 import CarouselProduct from "../CarouselProducts";
 import ProductsDataView from "../ProductsDataView";
+import AddToCartButton from "../AddToCartButton";
 
 export const HomePage: FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<ProductsData[]>([]);
@@ -58,15 +59,11 @@ export const HomePage: FC = () => {
             </div>
             <h4 className="text-2xl font-bold">${product.price}</h4>
             <div className="flex flex-wrap gap-2 justify-content-around">
-              <Button
-                icon="pi pi-shopping-cart"
-                className="p-button-rounded gap-2"
+              <AddToCartButton
+                text="Add to Cart"
                 disabled={product.quantity === 0}
                 outlined
-                onClick={handleCartButtonClick}
-              >
-                Add to Cart
-              </Button>
+              />
               <Link href={`/viewProduct/${product.id}`}>
                 <Button
                   icon="pi pi-arrow-right"
