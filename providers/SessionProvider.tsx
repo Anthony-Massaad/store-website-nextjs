@@ -30,7 +30,6 @@ const SessionProvider: FC<Props> = ({ children, session }) => {
 
   useEffect(() => {
     if (session) {
-      console.log("Session Changed! ", session);
       const data = session.decrypted;
       setUserData({
         email: data.user.email,

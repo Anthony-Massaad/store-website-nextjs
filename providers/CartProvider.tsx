@@ -1,11 +1,7 @@
 "use client";
 
-import { ProductsData } from "@/interface/globalInterfaces";
+import { CartItems, ProductsData } from "@/interface/globalInterfaces";
 import { FC, ReactNode, createContext, useState } from "react";
-
-interface CartItems {
-  [key: number]: ProductsData;
-}
 
 interface CartProps {
   cartItems: CartItems;

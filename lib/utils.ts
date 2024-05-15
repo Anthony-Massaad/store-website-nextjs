@@ -19,7 +19,7 @@ export const loginFunc = async (formData: UserData) => {
     firstName: formData.firstName,
     lastName: formData.lastName,
   };
-  const expires = new Date(Date.now() + 10 * 1000);
+  const expires = new Date(Date.now() + 10 * 60 * 1000);
   const session = await encrypt({ user, expires });
   // read only in the server
   cookies().set("session", session, { expires, httpOnly: true });
@@ -49,7 +49,7 @@ export const changeUserDataSession = async (data: UserData) => {
     firstName: data.firstName,
     lastName: data.lastName,
   };
-  const expires = new Date(Date.now() + 10 * 1000);
+  const expires = new Date(Date.now() + 10 * 60 * 1000);
   const session = await encrypt({ user, expires });
   // read only in the server
   cookies().set("session", session, { expires });

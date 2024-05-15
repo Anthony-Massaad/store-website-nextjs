@@ -18,3 +18,7 @@ export interface UserData {
   lastName: string;
   address: string;
 }
+
+export interface CartItems {
+  [key: number]: ProductsData;
+}
