@@ -11,7 +11,7 @@ import { Button } from "primereact/button";
 import Container from "./Container";
 import { MenuItem } from "primereact/menuitem";
 import { Menubar } from "primereact/menubar";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { SessionContext } from "@/providers/SessionProvider";
 import { map } from "lodash";
@@ -28,10 +28,9 @@ interface UserSigninOptions {
 const Header: FC = () => {
   const navigate = useRouter();
   const route = (to: string) => navigate.push(to);
-  const { userData } = useContext(SessionContext);
+  const { userData, clearSession } = useContext(SessionContext);
   const [userOptionsActive, setUserOptionsActive] = useState(false);
   const [sideBarVisibleRight, setSideBarVisibleRight] = useState(false);
-  const pathname = usePathname();
 
   const items: MenuItem[] = [
     {
@@ -81,9 +80,9 @@ const Header: FC = () => {
       icon: "pi pi-sign-out",
       label: "Logout",
       command: () => {
+        clearSession();
         logoutFunc();
         setUserOptionsActive(false);
-        navigate.push(pathname);
       },
     },
   ];

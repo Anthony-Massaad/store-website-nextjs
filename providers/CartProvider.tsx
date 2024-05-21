@@ -47,6 +47,8 @@ const CartProvider: FC<Props> = ({ children }) => {
             showToast("error", "Fetching cart items error");
           });
       })();
+    } else {
+      setCartItems({});
     }
   }, [userData]);
 

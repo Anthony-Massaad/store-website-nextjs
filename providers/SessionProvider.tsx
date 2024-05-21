@@ -15,6 +15,7 @@ interface Props {
 interface ContextProps {
   userData?: UserData;
   sessionToken?: string;
+  clearSession: () => void;
 }
 
 export const SessionContext = createContext<ContextProps>({} as ContextProps);
@@ -27,6 +28,11 @@ const SessionProvider: FC<Props> = ({ children, session }) => {
   const [sessionToken, setSessionToken] = useAtom<string | undefined>(
     sessionTokenAtom
   );
+
+  const clearSession = (): void => {
+    setUserData(undefined);
+    setSessionToken(undefined);
+  };
 
   useEffect(() => {
     if (session) {
@@ -44,7 +50,7 @@ const SessionProvider: FC<Props> = ({ children, session }) => {
   }, [session]);
 
   return (
-    <SessionContext.Provider value={{ userData, sessionToken }}>
+    <SessionContext.Provider value={{ userData, sessionToken, clearSession }}>
       {children}
     </SessionContext.Provider>
   );

@@ -27,7 +27,6 @@ A mimic of some e-commerce store using NextJs, Typescript, and prisma. [Primerea
 
 - Checkout functionality with full update to the database
 - Search products functionality
-- Fix logout bug
 
 # Credit
 
