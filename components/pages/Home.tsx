@@ -10,7 +10,6 @@ import { Rating } from "primereact/rating";
 import { Splitter, SplitterPanel } from "primereact/splitter";
 import { FC, ReactElement, useEffect, useState } from "react";
 import Container from "../Container";
-import { InputText } from "primereact/inputtext";
 import { Card } from "primereact/card";
 import CarouselProduct from "../CarouselProducts";
 import ProductsDataView from "../ProductsDataView";
@@ -106,13 +105,6 @@ export const HomePage: FC = () => {
 
   return (
     <Container contentContainer>
-      <div className="flex gap-2 mb-4 justify-content-center">
-        <InputText
-          placeholder="Search"
-          className="border-round w-full max-w-30rem"
-        />
-        <Button icon="pi pi-search" className="p-button-rounded"></Button>
-      </div>
       <Card className="mb-4">
         <h2 className="p-4 border-bottom-1">Featured Items</h2>
         {featuredItems()}

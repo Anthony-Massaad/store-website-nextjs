@@ -13,6 +13,7 @@ A mimic of some e-commerce store using NextJs, Typescript, and prisma. [Primerea
 - Can edit your profile to change details
 - Adding items to cart once user is logged in. Can View items in cart
 - Cart items per user saves in the database as you add, increment, decrement and remove. Allows for flexibility from desktop to mobile
+- Simple Search products mechanism added
 
 ### Pages
 
@@ -26,7 +27,7 @@ A mimic of some e-commerce store using NextJs, Typescript, and prisma. [Primerea
 # TODOs:
 
 - Checkout functionality with full update to the database
-- Search products functionality
+- Rating of product functionality
 
 # Credit
 

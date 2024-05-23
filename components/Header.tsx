@@ -18,6 +18,7 @@ import { map } from "lodash";
 import { logoutFunc } from "@/lib/utils";
 import { Divider } from "primereact/divider";
 import SideBarCartList from "./SideBarCartList";
+import SearchBar from "./SearchBar";
 
 interface UserSigninOptions {
   icon?: string;
@@ -31,6 +32,7 @@ const Header: FC = () => {
   const { userData, clearSession } = useContext(SessionContext);
   const [userOptionsActive, setUserOptionsActive] = useState(false);
   const [sideBarVisibleRight, setSideBarVisibleRight] = useState(false);
+  const [searchVisible, setSearchVisible] = useState(false);
 
   const items: MenuItem[] = [
     {
@@ -102,6 +104,15 @@ const Header: FC = () => {
   const end = (): ReactElement => {
     return (
       <div className="flex gap-2">
+        <div className="flex justify-content-center align-items-center">
+          <Button
+            icon="pi pi-search"
+            className="p-button-rounded"
+            onClick={() => {
+              setSearchVisible(true);
+            }}
+          ></Button>
+        </div>
         {userData ? (
           <div className="flex gap-2 align-items-center justify-items-center">
             <Button
@@ -179,6 +190,10 @@ const Header: FC = () => {
           model={items}
           end={end}
           className="h-full flex justify-content-between surface-overlay block border-0 p-0 m-0"
+        />
+        <SearchBar
+          searchVisible={searchVisible}
+          setSearchVisible={setSearchVisible}
         />
       </Container>
     </header>
