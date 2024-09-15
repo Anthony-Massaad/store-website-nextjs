@@ -2,6 +2,8 @@
 
 A mimic of some e-commerce store using NextJs, Typescript, and prisma. [Primereact](https://primereact.org/) and [Primeflex](https://primeflex.org/) used for prebuilt components and css. Custom css used if necessary. The products used were found using [the fake store api](https://fakestoreapi.com).
 
+You can view a demo of the app [here](store-website-nextjs.vercel.app)
+
 # Functionality done
 
 ### Functional
